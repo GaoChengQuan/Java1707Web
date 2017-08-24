@@ -20,4 +20,27 @@
   	<url-pattern>/time</url-pattern>
   </servlet-mapping>
   
+  
+  <servlet>
+  	<servlet-name>FindAllStudent</servlet-name>
+  	<servlet-class>com.situ.student.controller.FindAllStudentServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>FindAllStudent</servlet-name>
+  	<url-pattern>/findAllStudent</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  <servlet>
+  	<servlet-name>AddStudent</servlet-name>
+  	<servlet-class>com.situ.student.controller.AddStudentServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>AddStudent</servlet-name>
+  	<url-pattern>/addStudent</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
