@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,12 @@ public class FindAllStudentServlet extends HttpServlet{
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ServletContext context = getServletContext();
+		int count = (int) context.getAttribute("count");
+		count++;
+		context.setAttribute("count", count);
+		System.out.println("当前访问次数：" + count);
+		
 		//1.接收请求参数，封装成对象
 	    //2.业务处理
 		IStudentService service = new StudentServiceImpl();

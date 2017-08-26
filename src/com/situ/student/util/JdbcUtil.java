@@ -11,20 +11,55 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import javax.servlet.ServletContext;
+
 /**
  * 处理数据库工具类
  *
  */
 public class JdbcUtil {
-	private final static String driverClass = "com.mysql.jdbc.Driver";
+	/*private final static String driverClass = "com.mysql.jdbc.Driver";
 	private final static String  url= "jdbc:mysql://localhost:3306/java1707";
 	private final static String  userName = "root";
-	private final static String  password = "root";
+	private final static String  password = "root";*/
 	
-	/*private static String driverClass;
+	private static String driverClass;
 	private static String  url;
 	private static String  userName;
-	private static String  password;*/
+	private static String  password;
+	
+	public static void init(ServletContext context) {
+		InputStream inputStream = null;
+		try {
+			inputStream = context.getResourceAsStream("/WEB-INF/classes/db.properties");
+			Properties properties = new Properties();
+			properties.load(inputStream);
+			driverClass = properties.getProperty("driverClass");
+			url = properties.getProperty("url");
+			userName = properties.getProperty("userName");
+			password = properties.getProperty("password");
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		 //1、加载驱动 Class.forNmae("");
+		try {
+			Class.forName(driverClass);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	static {
 		/*InputStream inputStream = null;
@@ -52,11 +87,11 @@ public class JdbcUtil {
 		
 		
 		// 1、加载驱动 Class.forNmae("");
-		try {
+		/*try {
 			Class.forName(driverClass);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	public static Connection getConnection() throws SQLException {
