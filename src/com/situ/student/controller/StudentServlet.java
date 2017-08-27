@@ -11,6 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.junit.internal.runners.model.EachTestNotifier;
 
 import com.situ.student.exception.NameRepeatException;
 import com.situ.student.pojo.Student;
@@ -24,6 +27,14 @@ public class StudentServlet extends HttpServlet{
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("StudentServlet.service()");
 		
+		//.获得HttpSession
+		HttpSession session = req.getSession();
+		String userName = (String) session.getAttribute("userName");
+		if (userName == null) {
+			resp.sendRedirect(req.getContextPath() + "/html/login.html");
+			return;
+		}
+		
 		ServletContext context = getServletContext();
 		int count = (int) context.getAttribute("count");
 		count++;
@@ -36,19 +47,34 @@ public class StudentServlet extends HttpServlet{
 		if ("/addStudent.do".equals(servletPath)) {
 			addStudent(req, resp);
 		} else if ("/findAllStudents.do".equals(servletPath)) {
-			findAllStudents(resp);
+			findAllStudents(req, resp);
+		} else if ("/seachByName.do".equals(servletPath)) {
+			searchByName(req, resp);
 		}
 	}
 
-	private void findAllStudents(HttpServletResponse resp) throws IOException {
+	private void searchByName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String searchName = req.getParameter("searchName");
+		IStudentService service = new StudentServiceImpl();
+		List<Student> list = service.searchByName(searchName);
+		req.setAttribute("list", list);
+		req.getRequestDispatcher("/display").forward(req, resp);
+	}
+
+	private void findAllStudents(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		//1.接收请求参数，封装成对象
 		//2.业务处理
 		IStudentService service = new StudentServiceImpl();
 		List<Student> list = service.findAll();
 		//3.控制界面跳转
+		HttpSession session = req.getSession();
+		String userName = (String) session.getAttribute("userName");
+		
 		resp.setContentType("text/html;charset=utf-8");
 		PrintWriter printWriter = resp.getWriter();
 		printWriter.println("<a href='/Java1707Web/html/add_student.html'>添加<a/>");
+		printWriter.println("<h1>欢迎您回来" + userName + "</h1>");
+		printWriter.println("<a href='/Java1707Web/logout'>退出</a>");
 		printWriter.println("<table border='1' cellspacing='0'>");
 		printWriter.println("<tr>");
 		printWriter.println("	<td>id</td>");

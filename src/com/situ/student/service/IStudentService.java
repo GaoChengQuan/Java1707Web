@@ -20,5 +20,7 @@ public interface IStudentService {
 	 * @throws NameRepeatException 
 	 */
 	boolean add(Student student) throws NameRepeatException;
+	
+	List<Student> searchByName(String name);
 
 }

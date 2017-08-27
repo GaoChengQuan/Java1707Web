@@ -15,7 +15,7 @@ import com.situ.student.exception.NameRepeatException;
 import com.situ.student.pojo.Student;
 import com.situ.student.util.JdbcUtil;
 
-public class StudentDaoMySqlImpl implements IStudentDao{
+public class StudentDaoMySqlImpl implements IStudentDao {
 
 	@Override
 	public int add(Student student) {
@@ -37,10 +37,10 @@ public class StudentDaoMySqlImpl implements IStudentDao{
 		} finally {
 			JdbcUtil.close(connection, preparedStatement);
 		}
-		
+
 		return result;
 	}
-	
+
 	@Override
 	public int deleteById(int id) {
 		// TODO Auto-generated method stub
@@ -78,7 +78,7 @@ public class StudentDaoMySqlImpl implements IStudentDao{
 		} finally {
 			JdbcUtil.close(connection, preparedStatement, resultSet);
 		}
-		
+
 		return list;
 	}
 
@@ -114,8 +114,38 @@ public class StudentDaoMySqlImpl implements IStudentDao{
 		} finally {
 			JdbcUtil.close(connection, preparedStatement, resultSet);
 		}
-		
+
 		return isExist;
+	}
+
+	@Override
+	public List<Student> searchByName(String searchName) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Student> list = new ArrayList<Student>();
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "SELECT id,NAME,age,gender,address FROM student where name=?;";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, searchName);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				int age = resultSet.getInt("age");
+				String gender = resultSet.getString("gender");
+				String address = resultSet.getString("address");
+				Student student = new Student(id, name, age, gender, address, new Date());
+				list.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(connection, preparedStatement, resultSet);
+		}
+
+		return list;
 	}
 
 }

@@ -53,4 +53,6 @@ public interface IStudentDao {
 	 * @return
 	 */
 	public boolean checkName(String name);
+
+	public List<Student> searchByName(String name);
 }
