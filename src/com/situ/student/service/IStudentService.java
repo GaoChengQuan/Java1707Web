@@ -23,4 +23,6 @@ public interface IStudentService {
 	
 	List<Student> searchByName(String name);
 
+	Student findById(Integer id);
+
 }

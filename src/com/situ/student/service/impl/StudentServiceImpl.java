@@ -39,4 +39,10 @@ public class StudentServiceImpl implements IStudentService{
 		return studentDao.searchByName(name);
 	}
 
+	@Override
+	public Student findById(Integer id) {
+		
+		return studentDao.findById(id);
+	}
+
 }

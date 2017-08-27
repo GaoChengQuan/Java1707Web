@@ -148,4 +148,34 @@ public class StudentDaoMySqlImpl implements IStudentDao {
 		return list;
 	}
 
+	@Override
+	public Student findById(Integer idSearch) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "SELECT id,NAME,age,gender,address FROM student where id=?;";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, idSearch);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				int age = resultSet.getInt("age");
+				String gender = resultSet.getString("gender");
+				String address = resultSet.getString("address");
+				Student student = new Student(id, name, age, gender, address, new Date());
+				return student;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(connection, preparedStatement, resultSet);
+		}
+
+		return null;
+	
+	}
+
 }

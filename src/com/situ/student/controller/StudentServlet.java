@@ -50,7 +50,17 @@ public class StudentServlet extends HttpServlet{
 			findAllStudents(req, resp);
 		} else if ("/seachByName.do".equals(servletPath)) {
 			searchByName(req, resp);
+		} else if ("/toUpdateStudent.do".equals(servletPath)) {
+			toUpdateStudent(req, resp);
 		}
+	}
+
+	private void toUpdateStudent(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String id = req.getParameter("id");
+		IStudentService service = new StudentServiceImpl();
+		Student student = service.findById(Integer.parseInt(id));
+		req.setAttribute("student", student);
+		req.getRequestDispatcher("/jsp/student_update.jsp").forward(req, resp);
 	}
 
 	private void searchByName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,16 +71,16 @@ public class StudentServlet extends HttpServlet{
 		req.getRequestDispatcher("/display").forward(req, resp);
 	}
 
-	private void findAllStudents(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	private void findAllStudents(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		//1.接收请求参数，封装成对象
 		//2.业务处理
 		IStudentService service = new StudentServiceImpl();
 		List<Student> list = service.findAll();
 		//3.控制界面跳转
-		HttpSession session = req.getSession();
-		String userName = (String) session.getAttribute("userName");
+		req.setAttribute("list", list);
+		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
 		
-		resp.setContentType("text/html;charset=utf-8");
+		/*resp.setContentType("text/html;charset=utf-8");
 		PrintWriter printWriter = resp.getWriter();
 		printWriter.println("<a href='/Java1707Web/html/add_student.html'>添加<a/>");
 		printWriter.println("<h1>欢迎您回来" + userName + "</h1>");
@@ -96,7 +106,7 @@ public class StudentServlet extends HttpServlet{
 		}
 		printWriter.println("</table>");
 			
-		printWriter.close();
+		printWriter.close();*/
 	}
 	
 	private void addStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {

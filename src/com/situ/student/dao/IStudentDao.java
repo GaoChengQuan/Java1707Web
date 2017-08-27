@@ -55,4 +55,6 @@ public interface IStudentDao {
 	public boolean checkName(String name);
 
 	public List<Student> searchByName(String name);
+
+	public Student findById(Integer id);
 }
