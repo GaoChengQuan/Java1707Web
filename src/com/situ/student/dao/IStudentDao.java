@@ -3,6 +3,7 @@ package com.situ.student.dao;
 import java.util.List;
 
 import com.situ.student.pojo.Student;
+import com.situ.student.vo.SearchCondition;
 
 public interface IStudentDao {
 
@@ -57,4 +58,6 @@ public interface IStudentDao {
 	public List<Student> searchByName(String name);
 
 	public Student findById(Integer id);
+
+	public List<Student> searchByCondition(SearchCondition searchCondition);
 }

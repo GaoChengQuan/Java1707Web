@@ -10,10 +10,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.experimental.theories.FromDataPoints;
+
 import com.situ.student.dao.IStudentDao;
 import com.situ.student.exception.NameRepeatException;
 import com.situ.student.pojo.Student;
 import com.situ.student.util.JdbcUtil;
+import com.situ.student.vo.SearchCondition;
+import com.sun.org.apache.bcel.internal.generic.Select;
 
 public class StudentDaoMySqlImpl implements IStudentDao {
 
@@ -176,6 +180,59 @@ public class StudentDaoMySqlImpl implements IStudentDao {
 
 		return null;
 	
+	}
+
+	@Override
+	public List<Student> searchByCondition(SearchCondition searchCondition) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Student> list = new ArrayList<Student>();
+		
+		// select * from student where name like ? and age=? and gender=?;
+		// select * from student where name like ? and age=? and gender=?;
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "SELECT id,NAME,age,gender,address FROM student where 1=1";
+			String nameSearch = searchCondition.getName();
+			List<String> listCondition = new ArrayList<String>();
+			if (nameSearch != null && !nameSearch.equals("")) {
+				sql += " and name like ?";
+				listCondition.add("%" + nameSearch + "%");
+			}
+			String ageSearch = searchCondition.getAge();
+			if (ageSearch != null && !ageSearch.equals("")) {
+				sql += " and age=?";
+				listCondition.add(ageSearch);
+			}
+			String genderSearch = searchCondition.getGender();
+			if (genderSearch != null && !genderSearch.equals("")) {
+				sql += " and gender=?";
+				listCondition.add(genderSearch);
+			}
+			
+			preparedStatement = connection.prepareStatement(sql);
+			for (int i = 0; i < listCondition.size(); i++) {
+				preparedStatement.setString(i + 1, listCondition.get(i));
+			}
+			
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				int age = resultSet.getInt("age");
+				String gender = resultSet.getString("gender");
+				String address = resultSet.getString("address");
+				Student student = new Student(id, name, age, gender, address, new Date());
+				list.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(connection, preparedStatement, resultSet);
+		}
+
+		return list;
 	}
 
 }

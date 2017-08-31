@@ -1,3 +1,4 @@
+<%@page import="java.io.PrintWriter"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.situ.student.pojo.*"%>
@@ -15,38 +16,55 @@
 </style>
 </head>
 <body>
-	<%
-		List<Student> list = (List<Student>)request.getAttribute("list");
-	%>
-	<table style="width: 800px;" class="align-center table table-striped table-bordered table-hover table-condensed">
-		<tr>
-			<td>id</td>
-			<td>姓名</td>
-			<td>年龄</td>
-			<td>性别</td>
-			<td>地址</td>
-			<td>出生日期</td>
-			<td>删除</td>
-			<td>修改</td>
-		</tr>
-		<%
-			for(Student stu : list) {
+	<div class="container" style="width:70%">
+		<% 
+			List<Student> list = (List<Student>)request.getAttribute("list");
 		%>
-				<tr>
-					<td><%=stu.getId()%></td>
-					<td><%=stu.getName()%></td>
-					<td><%=stu.getAge()%></td>
-					<td><%=stu.getGender()%></td>
-					<td><%=stu.getAddress()%></td>
-					<td><%=stu.getBirthday()%></td>
-					<td><a href="<%=request.getContextPath()%>/deleteStudent.do?id=<%=stu.getId()%>">删除</a></td>
-					<td><a href="<%=request.getContextPath()%>/toUpdateStudent.do?id=<%=stu.getId()%>">修改</a></td>
-				</tr>
-		<%
-			}
-		%>
-		
-		
-	</table>
+		<%-- <%@include file="common/header.jsp" %> --%>
+		<%-- <jsp:include page="common/header.jsp"></jsp:include> --%>
+		<form action="${pageContext.request.contextPath}/student?method=searchByCondition" method="post">
+			姓名：<input type="text" name="name"/>
+			年龄:<input type="text" name="age"/>
+			性别：<select name="gender">
+					<option value="">不限</option>
+					<option value="男">男</option>
+					<option value="女">女</option>
+			    </select>
+			<input type="submit" value="搜索"/>
+		</form>
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/html/add_student.html">添加</a>
+		<table style="width: 800px;" class="align-center table table-striped table-bordered table-hover table-condensed">
+			<tr>  
+				<td>id</td>
+				<td>姓名</td>
+				<td>年龄</td>
+				<td>性别</td>
+				<td>地址</td>
+				<td>出生日期</td>
+				<td>删除</td>
+				<td>修改</td>
+			</tr>
+			<%
+				for(Student stu : list) {
+			%>
+					<tr>
+						<td><%=stu.getId()%></td>
+						<td><%=stu.getName()%></td>
+						<td><%=stu.getAge()%></td>
+						<td><%=stu.getGender()%></td>
+						<td><%=stu.getAddress()%></td>
+						<td><%=stu.getBirthday()%></td>
+						<td><a href="<%=request.getContextPath()%>/student?method=deletById&id=<%=stu.getId()%>">删除</a></td>
+						<td><a href="<%=request.getContextPath()%>/student?toUpdateStudent&id=<%=stu.getId()%>">修改</a></td>
+					</tr>
+			<%
+				}
+			%>
+			
+			
+		</table>
+		<%-- <%@include file="common/footer.jsp" %> --%>
+		<%-- <jsp:include page="common/footer.jsp"></jsp:include> --%>
+	</div>
 </body>
 </html>

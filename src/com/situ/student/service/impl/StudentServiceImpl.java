@@ -7,6 +7,7 @@ import com.situ.student.dao.impl.StudentDaoMySqlImpl;
 import com.situ.student.exception.NameRepeatException;
 import com.situ.student.pojo.Student;
 import com.situ.student.service.IStudentService;
+import com.situ.student.vo.SearchCondition;
 
 public class StudentServiceImpl implements IStudentService{
 	private IStudentDao studentDao = new StudentDaoMySqlImpl();
@@ -43,6 +44,11 @@ public class StudentServiceImpl implements IStudentService{
 	public Student findById(Integer id) {
 		
 		return studentDao.findById(id);
+	}
+
+	@Override
+	public List<Student> searchByCondition(SearchCondition searchCondition) {
+		return studentDao.searchByCondition(searchCondition);
 	}
 
 }

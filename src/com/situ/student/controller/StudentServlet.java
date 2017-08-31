@@ -19,11 +19,12 @@ import com.situ.student.exception.NameRepeatException;
 import com.situ.student.pojo.Student;
 import com.situ.student.service.IStudentService;
 import com.situ.student.service.impl.StudentServiceImpl;
+import com.situ.student.vo.SearchCondition;
 
-public class StudentServlet extends HttpServlet{
+public class StudentServlet extends BaseServlet{
 	
 
-	@Override
+	/*@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("StudentServlet.service()");
 		
@@ -53,7 +54,7 @@ public class StudentServlet extends HttpServlet{
 		} else if ("/toUpdateStudent.do".equals(servletPath)) {
 			toUpdateStudent(req, resp);
 		}
-	}
+	}*/
 
 	private void toUpdateStudent(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("id");
@@ -154,6 +155,27 @@ public class StudentServlet extends HttpServlet{
 		//resp.sendRedirect("/Java1707Web/findAllStudent");
 		resp.sendRedirect(req.getContextPath() + "/findAllStudent");
 	}
+	
+	private void deletById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String id = req.getParameter("id");
+		System.out.println(id);
+	}
+	
+	private void searchByCondition(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		//1.获得参数并封装
+		String name = req.getParameter("name");
+		String age = req.getParameter("age");
+		String gender = req.getParameter("gender");
+		SearchCondition searchCondition = new SearchCondition(name, age, gender);
+		System.out.println(searchCondition);
+		//2.调用service完成业务处理
+		IStudentService service = new StudentServiceImpl();
+		List<Student> list = service.searchByCondition(searchCondition);
+		//3.将数据放到域对象中request,跳转到jsp页面展示数据
+		req.setAttribute("list", list);
+		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
+	}
+	
 	
 	private void findAllStudents() {
 		

@@ -34,6 +34,8 @@ public class Student implements Serializable {
 		this.address = address;
 		this.birthday = birthday;
 	}
+	
+	
 
 	public Integer getId() {
 		return id;

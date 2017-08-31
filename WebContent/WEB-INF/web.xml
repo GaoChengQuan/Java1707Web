@@ -10,6 +10,15 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/jsp/common/500.jsp</location>
+  </error-page>
+ <!--  <error-page>
+  	<error-code>404</error-code>
+  	<location>/html/404.html</location>
+  </error-page> -->
+  
   <servlet>
   	<servlet-name>DisplaySearchStudentResultServlet</servlet-name>
   	<servlet-class>com.situ.student.controller.DisplaySearchStudentResultServlet</servlet-class>
@@ -144,9 +153,18 @@
   
   <servlet-mapping>
   	<servlet-name>Student</servlet-name>
-  	<url-pattern>*.do</url-pattern>
+  	<url-pattern>/student</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>Course</servlet-name>
+  	<servlet-class>com.situ.student.controller.CourseServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>Course</servlet-name>
+  	<url-pattern>/course</url-pattern>
+  </servlet-mapping>
   
   
   <servlet>
