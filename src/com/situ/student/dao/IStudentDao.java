@@ -60,4 +60,6 @@ public interface IStudentDao {
 	public Student findById(Integer id);
 
 	public List<Student> searchByCondition(SearchCondition searchCondition);
+
+	public List<Student> findPageBeanList(int index, int pageSize);
 }

@@ -6,19 +6,15 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.junit.internal.runners.model.EachTestNotifier;
 
 import com.situ.student.exception.NameRepeatException;
 import com.situ.student.pojo.Student;
 import com.situ.student.service.IStudentService;
 import com.situ.student.service.impl.StudentServiceImpl;
+import com.situ.student.vo.PageBean;
 import com.situ.student.vo.SearchCondition;
 
 public class StudentServlet extends BaseServlet{
@@ -176,8 +172,24 @@ public class StudentServlet extends BaseServlet{
 		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
 	}
 	
-	
-	private void findAllStudents() {
+	private void pageList(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		System.out.println("StudentServlet.pageList()");
+		String pageIndexStr = req.getParameter("pageIndex");
+		String pageSizeStr = req.getParameter("pageSize");
+		int pageIndex = 1;//默认取第一页的数据
+		if (pageIndexStr != null && !pageIndexStr.equals("")) {
+			pageIndex = Integer.parseInt(pageIndexStr);
+		}
+		int pageSize = 3;//默认每一页数量
+		if (pageSizeStr != null && !pageIndexStr.equals("")) {
+			pageSize = Integer.parseInt(pageSizeStr);
+		}
 		
+		IStudentService studentService = new StudentServiceImpl();
+		PageBean pageBean = studentService.getPageBean(pageIndex, pageSize);
+		System.out.println(pageBean);
+		//pageIndex totalPage  pageSize totalCount list
+		req.setAttribute("pageBean", pageBean);
+		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
 	}
 }

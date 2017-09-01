@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.situ.student.exception.NameRepeatException;
 import com.situ.student.pojo.Student;
+import com.situ.student.vo.PageBean;
 import com.situ.student.vo.SearchCondition;
 
 public interface IStudentService {
@@ -27,5 +28,7 @@ public interface IStudentService {
 	Student findById(Integer id);
 
 	List<Student> searchByCondition(SearchCondition searchCondition);
+
+	PageBean getPageBean(int pageIndex, int pageSize);
 
 }

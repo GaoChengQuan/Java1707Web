@@ -235,4 +235,33 @@ public class StudentDaoMySqlImpl implements IStudentDao {
 		return list;
 	}
 
+	@Override
+	public List<Student> findPageBeanList(int index, int pageSize) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Student> list = new ArrayList<Student>();
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "select * from student limit ?,?;";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setObject(1, index);
+			preparedStatement.setObject(2, pageSize);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				int age = resultSet.getInt("age");
+				String gender = resultSet.getString("gender");
+				String address = resultSet.getString("address");
+				Date birthday = resultSet.getDate("birthday");
+				Student student = new Student(id, name, age, gender, address, birthday);
+				list.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }
