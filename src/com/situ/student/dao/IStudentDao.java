@@ -62,4 +62,10 @@ public interface IStudentDao {
 	public List<Student> searchByCondition(SearchCondition searchCondition);
 
 	public List<Student> findPageBeanList(int index, int pageSize);
+
+	public int getTotalCount(SearchCondition searchCondition);
+
+	public List<Student> findPageBeanList(SearchCondition searchCondition);
+
+	public int getTotalCount();
 }

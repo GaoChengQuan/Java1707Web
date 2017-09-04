@@ -118,7 +118,7 @@ public class StudentServlet extends BaseServlet{
 		Student student = new Student(name, Integer.parseInt(age), gender, "青岛", new Date());
 		System.out.println(student);
 		
-		//1.请求行(请求方式  URI  http版本)
+		/*//1.请求行(请求方式  URI  http版本)
 		System.out.println("请求方式:" + req.getMethod());
 		System.out.println("访问路径:" + req.getServletPath());
 		System.out.println("http协议版本:" + req.getProtocol());
@@ -129,7 +129,7 @@ public class StudentServlet extends BaseServlet{
 			String key = enumeration.nextElement();
 			String value = req.getHeader(key);
 			System.out.println(key + " : " + value);
-		}
+		}*/
 		
 		IStudentService service = new StudentServiceImpl();
 		boolean result = false;
@@ -149,7 +149,7 @@ public class StudentServlet extends BaseServlet{
 		
 		//重定向到FindAllStudentServlet
 		//resp.sendRedirect("/Java1707Web/findAllStudent");
-		resp.sendRedirect(req.getContextPath() + "/findAllStudent");
+		resp.sendRedirect(req.getContextPath() + "/student?method=pageList");
 	}
 	
 	private void deletById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -162,13 +162,25 @@ public class StudentServlet extends BaseServlet{
 		String name = req.getParameter("name");
 		String age = req.getParameter("age");
 		String gender = req.getParameter("gender");
-		SearchCondition searchCondition = new SearchCondition(name, age, gender);
+		String pageIndexStr = req.getParameter("pageIndex");
+		String pageSizeStr = req.getParameter("pageSize");
+		int pageIndex = 1;//默认取第一页的数据
+		if (pageIndexStr != null && !pageIndexStr.equals("")) {
+			pageIndex = Integer.parseInt(pageIndexStr);
+		}
+		int pageSize = 3;//默认每一页数量
+		if (pageSizeStr != null && !pageIndexStr.equals("")) {
+			pageSize = Integer.parseInt(pageSizeStr);
+		}
+		SearchCondition searchCondition = new SearchCondition(pageIndex, pageSize, name, age, gender);
 		System.out.println(searchCondition);
+		
 		//2.调用service完成业务处理
 		IStudentService service = new StudentServiceImpl();
-		List<Student> list = service.searchByCondition(searchCondition);
+		PageBean pageBean = service.searchByCondition(searchCondition);
 		//3.将数据放到域对象中request,跳转到jsp页面展示数据
-		req.setAttribute("list", list);
+		req.setAttribute("pageBean", pageBean);
+		req.setAttribute("searchCondition", searchCondition);
 		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
 	}
 	

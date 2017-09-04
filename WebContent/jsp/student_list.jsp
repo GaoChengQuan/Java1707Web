@@ -11,6 +11,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link href="<%=request.getContextPath()%>/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/jquery/jquery-1.11.1.js"></script>
+<script type="text/javascript">
+	function goPage(pageIndex) {
+		$('#pageIndex').val(pageIndex);
+		$('#searchForm').submit();
+	}
+</script>
+
 </head>
 <body>
 	<div class="container" style="width:70%">
@@ -18,9 +26,10 @@
 			PageBean pageBean = (PageBean)request.getAttribute("pageBean");
 			List<Student> list = pageBean.getList();
 		%>
-		<form action="${pageContext.request.contextPath}/student?method=searchByCondition" method="post">
-			姓名：<input type="text" name="name"/>
-			年龄:<input type="text" name="age"/>
+		<form id="searchForm" action="${pageContext.request.contextPath}/student?method=searchByCondition" method="post">
+			<input type="hidden" name="pageIndex" id="pageIndex"/>
+			姓名：<input type="text" name="name" value="${searchCondition.name}"/>
+			年龄:<input type="text" name="age" value="${searchCondition.age}"/>
 			性别：<select name="gender">
 					<option value="">不限</option>
 					<option value="男">男</option>
@@ -82,11 +91,14 @@
 		  
 		  	<c:forEach begin="1" end="${pageBean.totalPage}" var="page">
 		  		<c:if test="${pageBean.pageIndex!=page}">
-			        <li><a href="${pageContext.request.contextPath}/student?method=pageList&pageIndex=${page}">${page}</a></li>
+			        <li>
+			        	<%-- <a href="${pageContext.request.contextPath}/student?method=pageList&pageIndex=${page}">${page}</a> --%>
+			        	<a href="javascript:goPage('${page}')">${page}</a>
+			        </li>
 		  		</c:if>
 		  		<!-- 遍历的时候page和pageIndex相等，高亮显示 -->
 		  		<c:if test="${pageBean.pageIndex==page}">
-			        <li class="active"><a href="${pageContext.request.contextPath}/student?method=pageList&pageIndex=${page}">${page}</a></li>
+			        <li class="active"><a href="javascript:goPage('${page}')">${page}</a></li>
 		  		</c:if>
 		  	</c:forEach>
 		  

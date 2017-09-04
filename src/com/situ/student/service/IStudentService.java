@@ -27,7 +27,7 @@ public interface IStudentService {
 
 	Student findById(Integer id);
 
-	List<Student> searchByCondition(SearchCondition searchCondition);
+	PageBean searchByCondition(SearchCondition searchCondition);
 
 	PageBean getPageBean(int pageIndex, int pageSize);
 

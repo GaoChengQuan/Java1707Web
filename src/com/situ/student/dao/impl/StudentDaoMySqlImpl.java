@@ -264,4 +264,123 @@ public class StudentDaoMySqlImpl implements IStudentDao {
 		return list;
 	}
 
+	@Override
+	public int getTotalCount() {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    int count = 0;
+	    try {
+	       connection = JdbcUtil.getConnection();
+	       String sql = "SELECT COUNT(*) FROM student;";
+	       preparedStatement = connection.prepareStatement(sql);
+	       resultSet = preparedStatement.executeQuery();
+	       if (resultSet.next()) {
+	           count = resultSet.getInt(1);
+	       }
+	    } catch (SQLException e) {
+	       e.printStackTrace();
+	    }
+	    
+	    return count;
+	}
+	
+	@Override
+	public int getTotalCount(SearchCondition searchCondition) {
+		Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    int count = 0;
+	    try {
+	       connection = JdbcUtil.getConnection();
+	       String sql = "SELECT COUNT(*) FROM student where 1=1 ";
+	       
+	       String nameSearch = searchCondition.getName();
+			List<String> listCondition = new ArrayList<String>();
+			if (nameSearch != null && !nameSearch.equals("")) {
+				sql += " and name like ?";
+				listCondition.add("%" + nameSearch + "%");
+			}
+			String ageSearch = searchCondition.getAge();
+			if (ageSearch != null && !ageSearch.equals("")) {
+				sql += " and age=?";
+				listCondition.add(ageSearch);
+			}
+			String genderSearch = searchCondition.getGender();
+			if (genderSearch != null && !genderSearch.equals("")) {
+				sql += " and gender=?";
+				listCondition.add(genderSearch);
+			}
+			
+			preparedStatement = connection.prepareStatement(sql);
+			for (int i = 0; i < listCondition.size(); i++) {
+				preparedStatement.setString(i + 1, listCondition.get(i));
+			}
+	       
+	       resultSet = preparedStatement.executeQuery();
+	       if (resultSet.next()) {
+	           count = resultSet.getInt(1);
+	       }
+	    } catch (SQLException e) {
+	       e.printStackTrace();
+	    }
+	    
+	    return count;
+	}
+
+	@Override
+	public List<Student> findPageBeanList(SearchCondition searchCondition) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Student> list = new ArrayList<Student>();
+		try {
+			connection = JdbcUtil.getConnection();
+			String sql = "select * from student where 1=1 ";
+			
+			String nameSearch = searchCondition.getName();
+			List<String> listCondition = new ArrayList<String>();
+			if (nameSearch != null && !nameSearch.equals("")) {
+				sql += " and name like ?";
+				listCondition.add("%" + nameSearch + "%");
+			}
+			String ageSearch = searchCondition.getAge();
+			if (ageSearch != null && !ageSearch.equals("")) {
+				sql += " and age=?";
+				listCondition.add(ageSearch);
+			}
+			String genderSearch = searchCondition.getGender();
+			if (genderSearch != null && !genderSearch.equals("")) {
+				sql += " and gender=?";
+				listCondition.add(genderSearch);
+			}
+			
+			// limit ?,?
+			sql += " limit ?,?";
+			
+			preparedStatement = connection.prepareStatement(sql);
+			for (int i = 0; i < listCondition.size(); i++) {
+				preparedStatement.setString(i + 1, listCondition.get(i));
+			}
+			int index = searchCondition.getPageIndex() - 1;
+			preparedStatement.setInt(listCondition.size() + 1, index);
+			preparedStatement.setInt(listCondition.size() + 2, searchCondition.getPageSize());
+			
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				int age = resultSet.getInt("age");
+				String gender = resultSet.getString("gender");
+				String address = resultSet.getString("address");
+				Date birthday = resultSet.getDate("birthday");
+				Student student = new Student(id, name, age, gender, address, birthday);
+				list.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

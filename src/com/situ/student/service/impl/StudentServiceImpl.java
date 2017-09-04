@@ -49,8 +49,36 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public List<Student> searchByCondition(SearchCondition searchCondition) {
-		return studentDao.searchByCondition(searchCondition);
+	public PageBean searchByCondition(SearchCondition searchCondition) {
+		PageBean pageBean = new PageBean();
+		 //当前是第几页
+		//private Integer pageIndex;
+		pageBean.setPageIndex(searchCondition.getPageIndex());
+		//每一页有多少条数据
+		//private Integer pageSize;
+		pageBean.setPageSize(searchCondition.getPageSize());
+		//数据库中一共有多少条记录
+		//private Integer totalCount; 
+		//SELECT COUNT(*) FROM student WHERE NAME LIKE '%uu%' AND age=20;
+		//SELECT COUNT(*) FROM student ;
+		int totalCount = studentDao.getTotalCount(searchCondition);
+		// TODO 具体实现这个方法而不是写死 
+		//int totalCount = 7;
+		pageBean.setTotalCount(totalCount);
+		// 一共有多少页
+		//private Integer totalPage;
+		int totalPage = (int) Math.ceil(1.0 * totalCount / searchCondition.getPageSize()); 
+		pageBean.setTotalPage(totalPage);
+		// 当前页的数据
+		//private List<Student> list;
+		//int index = (searchCondition.getPageIndex() - 1) * searchCondition.getPageSize();
+		//SELECT * FROM student WHERE NAME LIKE '%uu%' LIMIT 0,3;
+		//SELECT * FROM student LIMIT 0,3;
+		List<Student> list = studentDao.findPageBeanList(searchCondition);
+		pageBean.setList(list);
+		
+		return pageBean;
+		//return studentDao.searchByCondition(searchCondition);
 	}
 
 	@Override
@@ -64,9 +92,9 @@ public class StudentServiceImpl implements IStudentService{
 		pageBean.setPageSize(pageSize);
 		//数据库中一共有多少条记录
 		//private Integer totalCount; 
-		//int totalCount = studentDao.getTotalCount();
+		int totalCount = studentDao.getTotalCount();
 		// TODO 具体实现这个方法而不是写死 
-		int totalCount = 7;
+		//int totalCount = 7;
 		pageBean.setTotalCount(totalCount);
 		// 一共有多少页
 		//private Integer totalPage;
@@ -75,6 +103,7 @@ public class StudentServiceImpl implements IStudentService{
 		// 当前页的数据
 		//private List<Student> list;
 		int index = (pageIndex - 1) * pageSize;
+		//SELECT * FROM student WHERE LIMIT 0,3;
 		List<Student> list = studentDao.findPageBeanList(index, pageSize);
 		pageBean.setList(list);
 		
