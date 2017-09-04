@@ -82,8 +82,8 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public PageBean getPageBean(int pageIndex, int pageSize) {
-		PageBean pageBean = new PageBean();
+	public PageBean<Student> getPageBean(int pageIndex, int pageSize) {
+		PageBean<Student> pageBean = new PageBean<Student>();
 		 //当前是第几页
 		//private Integer pageIndex;
 		pageBean.setPageIndex(pageIndex);

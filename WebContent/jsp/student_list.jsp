@@ -17,6 +17,10 @@
 		$('#pageIndex').val(pageIndex);
 		$('#searchForm').submit();
 	}
+	
+	$(function() {
+		$("#gender option[value='${searchCondition.gender}']").prop("selected", true);
+	});
 </script>
 
 </head>
@@ -30,7 +34,7 @@
 			<input type="hidden" name="pageIndex" id="pageIndex"/>
 			姓名：<input type="text" name="name" value="${searchCondition.name}"/>
 			年龄:<input type="text" name="age" value="${searchCondition.age}"/>
-			性别：<select name="gender">
+			性别：<select name="gender" id="gender">
 					<option value="">不限</option>
 					<option value="男">男</option>
 					<option value="女">女</option>
@@ -81,12 +85,11 @@
 		  	</c:if>
 		  	<c:if test="${pageBean.pageIndex!=1}">
 		  		<li>
-			      <a href="${pageContext.request.contextPath}/student?method=pageList&pageIndex=${pageBean.pageIndex-1}" aria-label="Previous">
+			      <a href="javascript:goPage('${pageBean.pageIndex-1}')" aria-label="Previous">
 			        <span aria-hidden="true">&laquo;</span>
 			      </a>
 		    	</li>
 		  	</c:if>
-		    
 		  	<!-- 上一页 结束-->
 		  
 		  	<c:forEach begin="1" end="${pageBean.totalPage}" var="page">
@@ -102,11 +105,22 @@
 		  		</c:if>
 		  	</c:forEach>
 		  
-		    <li>
-		      <a href="#" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
+		    <!-- 下一页 开始-->
+		  	<c:if test="${pageBean.pageIndex==pageBean.totalPage}">
+		  		<li class="disabled">
+			      <a href="javascript:void(0);" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+		    	</li>
+		  	</c:if>
+		  	<c:if test="${pageBean.pageIndex!=pageBean.totalPage}">
+		  		<li>
+			      <a href="javascript:goPage('${pageBean.pageIndex+1}')" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+		    	</li>
+		  	</c:if>
+		  	<!-- 下一页 结束-->
  		  </ul>
 		</nav>
 		<!-- 分页结束 -->

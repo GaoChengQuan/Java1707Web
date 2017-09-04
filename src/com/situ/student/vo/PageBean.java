@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.situ.student.pojo.Student;
 
-public class PageBean implements Serializable {
+public class PageBean<T> implements Serializable {
 	/**
 	 * 当前是第几页
 	 */
@@ -25,13 +25,13 @@ public class PageBean implements Serializable {
 	/**
 	 * 当前页的数据
 	 */
-	private List<Student> list;
+	private List<T> list;
 
 	public PageBean() {
 		super();
 	}
 
-	public PageBean(Integer pageIndex, Integer totalPage, Integer pageSize, Integer totalCount, List<Student> list) {
+	public PageBean(Integer pageIndex, Integer totalPage, Integer pageSize, Integer totalCount, List<T> list) {
 		super();
 		this.pageIndex = pageIndex;
 		this.totalPage = totalPage;
@@ -72,11 +72,11 @@ public class PageBean implements Serializable {
 		this.totalCount = totalCount;
 	}
 
-	public List<Student> getList() {
+	public List<T> getList() {
 		return list;
 	}
 
-	public void setList(List<Student> list) {
+	public void setList(List<T> list) {
 		this.list = list;
 	}
 
