@@ -20,7 +20,6 @@ public class SearchCondition implements Serializable{
 		this.gender = gender;
 	}
 	
-	
 	public SearchCondition(Integer pageIndex, Integer pageSize, String name, String age, String gender) {
 		super();
 		this.pageIndex = pageIndex;

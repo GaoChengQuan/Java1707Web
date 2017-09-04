@@ -110,4 +110,9 @@ public class StudentServiceImpl implements IStudentService{
 		return pageBean;
 	}
 
+	@Override
+	public boolean checkName(String name) {
+		return studentDao.checkName(name);
+	}
+
 }

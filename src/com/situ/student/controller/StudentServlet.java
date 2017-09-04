@@ -16,6 +16,7 @@ import com.situ.student.service.IStudentService;
 import com.situ.student.service.impl.StudentServiceImpl;
 import com.situ.student.vo.PageBean;
 import com.situ.student.vo.SearchCondition;
+import com.sun.org.apache.xerces.internal.util.EntityResolver2Wrapper;
 
 public class StudentServlet extends BaseServlet{
 	
@@ -203,5 +204,15 @@ public class StudentServlet extends BaseServlet{
 		//pageIndex totalPage  pageSize totalCount list
 		req.setAttribute("pageBean", pageBean);
 		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
+	}
+	
+	private void checkName(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String name = req.getParameter("name");
+		IStudentService studentService = new StudentServiceImpl();
+		boolean isExist = studentService.checkName(name);
+		// {"isExist":isExist}
+		String str = "{\"isExist\":"+isExist+"}";
+		resp.setContentType("text/html;charset=utf-8");
+		resp.getWriter().write(str);
 	}
 }
