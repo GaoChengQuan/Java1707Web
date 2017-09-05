@@ -109,7 +109,7 @@ public class StudentServlet extends BaseServlet{
 	
 	private void addStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		System.out.println("StudentServlet.addStudent()");
-		req.setCharacterEncoding("utf-8");
+		//req.setCharacterEncoding("utf-8");
 		String name = req.getParameter("name");
 		byte[] buffer = name.getBytes("iso8859-1");
 		String nameEncode = new String(buffer, "utf-8");

@@ -362,7 +362,7 @@ public class StudentDaoMySqlImpl implements IStudentDao {
 			for (int i = 0; i < listCondition.size(); i++) {
 				preparedStatement.setString(i + 1, listCondition.get(i));
 			}
-			int index = searchCondition.getPageIndex() - 1;
+			int index = (searchCondition.getPageIndex() - 1) * searchCondition.getPageSize();
 			preparedStatement.setInt(listCondition.size() + 1, index);
 			preparedStatement.setInt(listCondition.size() + 2, searchCondition.getPageSize());
 			

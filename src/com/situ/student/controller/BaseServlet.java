@@ -14,7 +14,7 @@ public class BaseServlet extends HttpServlet{
 	//  /Java1707Web/student?method=findAllStudents
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
+		//req.setCharacterEncoding("utf-8");
 		//1.获得请求的mehtod方法的名字
 		String methodName = req.getParameter("method");
 		//2.获得当前被访问对象的字节码对象
