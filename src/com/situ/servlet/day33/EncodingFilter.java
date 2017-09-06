@@ -24,8 +24,14 @@ public class EncodingFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		EnhancedRequest enhancedRequest = new EnhancedRequest(httpServletRequest);
-		chain.doFilter(enhancedRequest, response);
+		String method = httpServletRequest.getMethod();
+		if (method.equalsIgnoreCase("get")) {
+			EnhancedRequest enhancedRequest = new EnhancedRequest(httpServletRequest);
+			chain.doFilter(enhancedRequest, response);
+		} else {
+			request.setCharacterEncoding("utf-8");
+			chain.doFilter(request, response);
+		}
 	}
 
 	@Override

@@ -153,7 +153,7 @@ public class StudentServlet extends BaseServlet{
 		resp.sendRedirect(req.getContextPath() + "/student?method=pageList");
 	}
 	
-	private void deletById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	private void deleteById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String id = req.getParameter("id");
 		System.out.println(id);
 	}
@@ -208,6 +208,7 @@ public class StudentServlet extends BaseServlet{
 	
 	private void checkName(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String name = req.getParameter("name");
+		System.out.println("name: " + name);
 		IStudentService studentService = new StudentServiceImpl();
 		boolean isExist = studentService.checkName(name);
 		// {"isExist":isExist}

@@ -41,7 +41,9 @@
 			    </select>
 			<input type="submit" value="搜索"/>
 		</form>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/html/add_student.html">添加</a>
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/html/student_add.jsp">添加</a>
+		<a href="${pageContext.request.contextPath}/admin?method=getOnLineList">${admin.name}</a>
+		<a href="${pageContext.request.contextPath}/logout">注销</a>
 		<table style="width: 700px;" class="align-center table table-striped table-bordered table-hover table-condensed">
 			<tr>  
 				<td>id</td>

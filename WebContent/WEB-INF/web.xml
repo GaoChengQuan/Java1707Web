@@ -277,7 +277,16 @@
   </servlet-mapping>
   
   
+  <servlet>
+  	<servlet-name>Admin</servlet-name>
+  	<servlet-class>com.situ.student.controller.AdminServlet</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
   
+  <servlet-mapping>
+  	<servlet-name>Admin</servlet-name>
+  	<url-pattern>/admin</url-pattern>
+  </servlet-mapping>
   
   
   <servlet>
@@ -337,5 +346,28 @@
   	<filter-name>EncodingFilter</filter-name>
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
+  
+  <filter>
+  	<filter-name>LoginFilter</filter-name>
+	<filter-class>com.situ.student.controller.LoginFilter</filter-class>  
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>LoginFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  
+  <listener>
+  	<listener-class>com.situ.servlet.day34.MyHttpSessionListener</listener-class>
+  </listener>
+  
+  <listener>
+  	<listener-class>com.situ.student.listener.MyServletContextListener</listener-class>
+  </listener>
+  
+  <listener>
+  	<listener-class>com.situ.servlet.day34.MyHttpSessionAttributeListener</listener-class>
+  </listener>
   
 </web-app>

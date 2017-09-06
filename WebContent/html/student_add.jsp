@@ -10,7 +10,7 @@
 	$(function(){
 		$("#name").blur(function(){
 			var name = $("#name").val();
-			$.post(
+			 $.post(
 				"${pageContext.request.contextPath}/student?method=checkName", //url
 				{"name":name}, //data
 				function(data) {
@@ -25,6 +25,21 @@
 				},//callback
 				"json" //type
 			);
+			/* $.get(
+					"${pageContext.request.contextPath}/student?method=checkName", //url
+					{"name":name}, //data
+					function(data) {
+						// {"isExist":isExist}
+						if(data.isExist) {
+							$("#nameInfo").html("该用户已存在");
+							$("#nameInfo").css("color", "red");
+						} else {
+							$("#nameInfo").html("该用户可以使用");
+							$("#nameInfo").css("color", "green");
+						}
+					},//callback
+					"json" //type
+				); */
 		});
 		
 	});
