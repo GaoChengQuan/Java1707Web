@@ -1,6 +1,9 @@
 package com.situ.student.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+
+import javax.naming.Context;
 
 import com.situ.student.dao.IStudentDao;
 import com.situ.student.dao.impl.StudentDaoMySqlImpl;
@@ -9,7 +12,6 @@ import com.situ.student.pojo.Student;
 import com.situ.student.service.IStudentService;
 import com.situ.student.vo.PageBean;
 import com.situ.student.vo.SearchCondition;
-import com.sun.xml.internal.bind.v2.TODO;
 
 public class StudentServiceImpl implements IStudentService{
 	private IStudentDao studentDao = new StudentDaoMySqlImpl();
@@ -113,6 +115,13 @@ public class StudentServiceImpl implements IStudentService{
 	@Override
 	public boolean checkName(String name) {
 		return studentDao.checkName(name);
+	}
+
+	@Override
+	public void deleteAll(String[] deleteIds) {
+		for (String id : deleteIds) {
+			studentDao.deleteById(Integer.parseInt(id));
+		}
 	}
 
 }

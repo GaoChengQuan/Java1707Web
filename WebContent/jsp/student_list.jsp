@@ -21,6 +21,15 @@
 	$(function() {
 		$("#gender option[value='${searchCondition.gender}']").prop("selected", true);
 	});
+	
+	function selectAll(){
+		$("input[name=selectIds]").prop("checked",$("#selectAlls").is(":checked"));
+	};
+	
+	function deleteAll(){
+		$("#mainForm").submit();
+	};
+	
 </script>
 
 </head>
@@ -41,38 +50,44 @@
 			    </select>
 			<input type="submit" value="搜索"/>
 		</form>
+		<input type="button" onclick="deleteAll();" value="批量删除"/>
 		<a class="btn btn-primary" href="${pageContext.request.contextPath}/html/student_add.jsp">添加</a>
 		<a href="${pageContext.request.contextPath}/admin?method=getOnLineList">${admin.name}</a>
 		<a href="${pageContext.request.contextPath}/logout">注销</a>
-		<table style="width: 700px;" class="align-center table table-striped table-bordered table-hover table-condensed">
-			<tr>  
-				<td>id</td>
-				<td>姓名</td>
-				<td>年龄</td>
-				<td>性别</td>
-				<td>地址</td>
-				<td>出生日期</td>
-				<td>删除</td>
-				<td>修改</td>
-			</tr>
-			<%
-				for(Student stu : list) {
-			%>
-					<tr>
-						<td><%=stu.getId()%></td>
-						<td><%=stu.getName()%></td>
-						<td><%=stu.getAge()%></td>
-						<td><%=stu.getGender()%></td>
-						<td><%=stu.getAddress()%></td>
-						<td><%=stu.getBirthday()%></td>
-						<td><a href="<%=request.getContextPath()%>/student?method=deletById&id=<%=stu.getId()%>">删除</a></td>
-						<td><a href="<%=request.getContextPath()%>/student?toUpdateStudent&id=<%=stu.getId()%>">修改</a></td>
-					</tr>
-			<%
-				}
-			%>
-			
-		</table>
+		<form id="mainForm" action="${pageContext.request.contextPath}/student?method=deleteAll" method="post">
+			<table style="width: 700px;" class="align-center table table-striped table-bordered table-hover table-condensed">
+				<tr>
+					<td><input type="checkbox" id="selectAlls" onclick="selectAll();"/></td>
+					<td>id</td>
+					<td>姓名</td>
+					<td>年龄</td>
+					<td>性别</td>
+					<td>地址</td>
+					<td>出生日期</td>
+					<td>删除</td>
+					<td>修改</td>
+				</tr>
+				<%
+					for(Student stu : list) {
+				%>
+						<tr>
+							<td><input type="checkbox" name="selectIds" value="<%=stu.getId()%>"/></td>
+							<td><%=stu.getId()%></td>
+							<td><%=stu.getName()%></td>
+							<td><%=stu.getAge()%></td>
+							<td><%=stu.getGender()%></td>
+							<td><%=stu.getAddress()%></td>
+							<td><%=stu.getBirthday()%></td>
+							<td><a href="<%=request.getContextPath()%>/student?method=deletById&id=<%=stu.getId()%>">删除</a></td>
+							<td><a href="<%=request.getContextPath()%>/student?toUpdateStudent&id=<%=stu.getId()%>">修改</a></td>
+						</tr>
+				<%
+					}
+				%>
+				
+			</table>
+		</form>
+		
 		
 		<!-- 分页开始 -->
 		<nav aria-label="Page navigation">

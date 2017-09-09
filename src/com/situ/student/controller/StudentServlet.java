@@ -3,7 +3,6 @@ package com.situ.student.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,7 +15,6 @@ import com.situ.student.service.IStudentService;
 import com.situ.student.service.impl.StudentServiceImpl;
 import com.situ.student.vo.PageBean;
 import com.situ.student.vo.SearchCondition;
-import com.sun.org.apache.xerces.internal.util.EntityResolver2Wrapper;
 
 public class StudentServlet extends BaseServlet{
 	
@@ -155,7 +153,18 @@ public class StudentServlet extends BaseServlet{
 	
 	private void deleteById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String id = req.getParameter("id");
+		String[] deleteIds = req.getParameterValues("selectIds");
 		System.out.println(id);
+	}
+	
+	private void deleteAll(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String[] deleteIds = req.getParameterValues("selectIds");
+		for (String id : deleteIds) {
+			System.out.println(id);
+		}
+		IStudentService studentService = new StudentServiceImpl();
+		studentService.deleteAll(deleteIds);
+		
 	}
 	
 	private void searchByCondition(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

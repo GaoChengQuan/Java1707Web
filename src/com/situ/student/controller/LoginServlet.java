@@ -28,9 +28,24 @@ public class LoginServlet extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
+		//验证验证码对不对
+		String checkCode = req.getParameter("checkCode");
+		if (checkCode == null || checkCode.equals("")) {
+			resp.sendRedirect(req.getContextPath() + "/html/login.jsp");
+			return;
+		}
+		//输入的和生成的是否一致
+		String checkCodeSession = (String) req.getSession().getAttribute("checkCodeSession");
+		if (!checkCode.equalsIgnoreCase(checkCodeSession)) {
+			resp.sendRedirect(req.getContextPath() + "/html/login.jsp");
+			return;
+		}
+		
 		// 1.获取参数
 		String name = req.getParameter("name");
 		String password = req.getParameter("password");
+		
+		
 		IAdminService adminService = new AdminServiceImpl();
 		Admin admin = adminService.findByNameAndPassword(name, password);
 		//2.业务处理

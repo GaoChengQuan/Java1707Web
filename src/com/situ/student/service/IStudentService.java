@@ -33,4 +33,6 @@ public interface IStudentService {
 
 	boolean checkName(String name);
 
+	void deleteAll(String[] deleteIds);
+
 }

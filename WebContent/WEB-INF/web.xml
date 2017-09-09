@@ -289,6 +289,24 @@
   </servlet-mapping>
   
   
+  
+  
+   <servlet>
+  	<servlet-name>CheckImg</servlet-name>
+  	<servlet-class>com.situ.student.controller.CheckImgServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>CheckImg</servlet-name>
+  	<url-pattern>/checkImg</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  
+  
+  
+  
   <servlet>
   	<servlet-name>Path</servlet-name>
   	<servlet-class>com.situ.servlet.PathServlet</servlet-class>

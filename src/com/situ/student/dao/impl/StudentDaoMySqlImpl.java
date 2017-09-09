@@ -4,20 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.experimental.theories.FromDataPoints;
-
 import com.situ.student.dao.IStudentDao;
-import com.situ.student.exception.NameRepeatException;
 import com.situ.student.pojo.Student;
 import com.situ.student.util.JdbcUtil;
 import com.situ.student.vo.SearchCondition;
-import com.sun.org.apache.bcel.internal.generic.Select;
 
 public class StudentDaoMySqlImpl implements IStudentDao {
 
