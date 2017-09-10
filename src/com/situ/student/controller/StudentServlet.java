@@ -2,6 +2,7 @@ package com.situ.student.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class StudentServlet extends BaseServlet{
 		List<Student> list = service.findAll();
 		//3.控制界面跳转
 		req.setAttribute("list", list);
-		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/student_list.jsp").forward(req, resp);
 		
 		/*resp.setContentType("text/html;charset=utf-8");
 		PrintWriter printWriter = resp.getWriter();
@@ -191,7 +192,7 @@ public class StudentServlet extends BaseServlet{
 		//3.将数据放到域对象中request,跳转到jsp页面展示数据
 		req.setAttribute("pageBean", pageBean);
 		req.setAttribute("searchCondition", searchCondition);
-		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/student_list.jsp").forward(req, resp);
 	}
 	
 	private void pageList(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -212,7 +213,7 @@ public class StudentServlet extends BaseServlet{
 		System.out.println(pageBean);
 		//pageIndex totalPage  pageSize totalCount list
 		req.setAttribute("pageBean", pageBean);
-		req.getRequestDispatcher("/jsp/student_list.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/student_list.jsp").forward(req, resp);
 	}
 	
 	private void checkName(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -225,4 +226,14 @@ public class StudentServlet extends BaseServlet{
 		resp.setContentType("text/html;charset=utf-8");
 		resp.getWriter().write(str);
 	}
+	
+	private void getSearchPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		List<String> list = new ArrayList<String>();
+		list.add("Java1705");
+		list.add("Java1707");
+		list.add("Java1708");
+		req.setAttribute("list", list);
+		req.getRequestDispatcher("/WEB-INF/jsp/student_search.jsp").forward(req, resp);
+	}
+	
 }
