@@ -33,7 +33,7 @@ public class LoginFilter implements Filter{
 		String requestPath = uri.substring(uri.lastIndexOf("/") + 1, uri.length());
 		System.out.println(uri);
 		//本来就是要去登陆的就不要再去验证登陆
-		if (requestPath.equals("login.jsp") 
+		/*if (requestPath.equals("login.jsp") 
 				|| requestPath.equals("login")
 				|| requestPath.equals("checkImg")) {
 			chain.doFilter(request, response);
@@ -46,7 +46,8 @@ public class LoginFilter implements Filter{
 			} else {
 				chain.doFilter(request, response);
 			}
-		}
+		}*/
+		chain.doFilter(request, response);
 	}
 
 	@Override

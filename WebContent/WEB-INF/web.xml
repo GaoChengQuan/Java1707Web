@@ -301,6 +301,16 @@
   	<url-pattern>/checkImg</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>Upload</servlet-name>
+  	<servlet-class>com.situ.servlet.day34.UploadServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>Upload</servlet-name>
+  	<url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+  
   
   
   
