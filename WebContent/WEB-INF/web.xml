@@ -40,6 +40,17 @@
   </servlet-mapping>
   
   
+   <servlet>
+  	<servlet-name>Manager</servlet-name>
+  	<servlet-class>com.situ.student.controller.MangerServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>Manager</servlet-name>
+  	<url-pattern>/manager</url-pattern>
+  </servlet-mapping>
+  
+  
   
   <servlet>
   	<servlet-name>Login</servlet-name>
